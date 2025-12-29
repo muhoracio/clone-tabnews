@@ -36,4 +36,7 @@ async function getNewClient() {
   return client;
 }
 
-export default { query, getNewClient };
+export default {
+  query,
+  getNewClient,
+};
