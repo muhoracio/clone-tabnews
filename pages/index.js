@@ -12,7 +12,7 @@ function Home() {
     setConfetti(new JSConfetti());
   }, []);
 
-  const play = (e) => {
+  const play = () => {
     setIsPlaying((val) => !val);
     if (audio.paused) {
       setAnimation(
@@ -35,6 +35,7 @@ function Home() {
       <div></div>
       {isPlaying && (
         <>
+          {/* eslint-disable-next-line jsx-a11y/alt-text, @next/next/no-img-element */}
           <img src="./ted.gif" />
           <p>Aumente o som!!! 🔊</p>
         </>
