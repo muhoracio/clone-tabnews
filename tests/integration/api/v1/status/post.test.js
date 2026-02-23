@@ -16,7 +16,7 @@ describe("POST /api/v1/status", () => {
 
       expect(responseBody).toEqual({
         name: "MethodNotAllowedError",
-        message: "Métofo não permitido para esse endpoint.",
+        message: "Método não permitido para esse endpoint.",
         action:
           "Verifique se o método HTTP enviado é válido para este endpoint.",
         status_code: 405,
