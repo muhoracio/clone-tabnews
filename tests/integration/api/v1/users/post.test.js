@@ -127,5 +127,28 @@ describe("POST /api/v1/users", () => {
         status_code: 400,
       });
     });
+
+    test("With undefined 'password'", async () => {
+      const response = await fetch("http://localhost:3000/api/v1/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: "senhaindefinida",
+          email: "senhaindefinida@email.com",
+        }),
+      });
+      expect(response.status).toBe(400);
+
+      const responseBody = await response.json();
+
+      expect(responseBody).toEqual({
+        name: "ValidationError",
+        message: "Senha não informada ou inválida.",
+        action: "Informe uma senha válida para realizar esta operação.",
+        status_code: 400,
+      });
+    });
   });
 });
