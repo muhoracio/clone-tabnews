@@ -36,6 +36,8 @@ async function findOneByUsername(username) {
 async function create(userInputValues) {
   await validateUniqueUsername(userInputValues.username);
   await validateUniqueEmail(userInputValues.email);
+
+  await validatePasswordInObject(userInputValues);
   await hashPasswordInObject(userInputValues);
 
   const newUser = await runInsertQuery(userInputValues);
@@ -77,6 +79,7 @@ async function update(username, userInputValues) {
   }
 
   if ("password" in userInputValues) {
+    await validatePasswordInObject(userInputValues);
     await hashPasswordInObject(userInputValues);
   }
 
@@ -158,6 +161,15 @@ async function validateUniqueEmail(email) {
 async function hashPasswordInObject(userInputValues) {
   const hashedPassword = await password.hash(userInputValues.password);
   userInputValues.password = hashedPassword;
+}
+
+async function validatePasswordInObject(userInputValues) {
+  if (!userInputValues?.password) {
+    throw new ValidationError({
+      message: "Senha não informada ou inválida.",
+      action: "Informe uma senha válida para realizar esta operação.",
+    });
+  }
 }
 
 const user = {
