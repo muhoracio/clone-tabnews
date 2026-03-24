@@ -1,9 +1,10 @@
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
+import { ValidationError } from "infra/errors.js";
 
 async function hash(password) {
-  const rounds = getNumberOfRounds();
   password = pepperPassword(password);
+  const rounds = getNumberOfRounds();
   return await bcryptjs.hash(password, rounds);
 }
 
@@ -17,6 +18,13 @@ function getNumberOfRounds() {
 }
 
 function pepperPassword(password) {
+  if (!password) {
+    throw new ValidationError({
+      message: "Senha não informada.",
+      action: "Informe uma senha para realizar esta operação.",
+    });
+  }
+
   const pepper = process.env.PEPPER || "";
   if (!pepper) return password;
 
