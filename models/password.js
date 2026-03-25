@@ -20,8 +20,8 @@ function getNumberOfRounds() {
 function pepperPassword(password) {
   if (!password) {
     throw new ValidationError({
-      message: "Senha não informada.",
-      action: "Informe uma senha para realizar esta operação.",
+      message: "Senha não informada ou inválida.",
+      action: "Informe uma senha válida para realizar esta operação.",
     });
   }
 
