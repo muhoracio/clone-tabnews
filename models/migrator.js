@@ -26,7 +26,7 @@ async function listPendindMigrations() {
   }
 }
 
-async function runPendingMigrations() {
+async function runPendingMigrations(count) {
   let dbClient;
   try {
     dbClient = await database.getNewClient();
@@ -34,6 +34,7 @@ async function runPendingMigrations() {
     const migratedMigrations = await migrationRunner({
       ...defaultMigrationOptions,
       dryRun: false,
+      count: count,
       dbClient,
     });
 

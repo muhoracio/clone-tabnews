@@ -45,8 +45,8 @@ async function clearDatabase() {
   await database.query("drop schema public cascade; create schema public;");
 }
 
-async function runPendingMigrations() {
-  await migrator.runPendingMigrations();
+async function runPendingMigrations(count) {
+  await migrator.runPendingMigrations(count);
 }
 
 async function createUser(userObject) {
