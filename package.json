@@ -68,5 +68,8 @@
     "*": [
       "secretlint"
     ]
+  },
+  "engines": {
+    "node": "24"
   }
 }
