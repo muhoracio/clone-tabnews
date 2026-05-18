@@ -108,7 +108,7 @@ async function create(userId) {
 
 async function sendEmailToUser(user, activationToken) {
   await email.send({
-    from: "Murilo <contato@muhoracio.com.br>",
+    from: "Murilo <contato@news.muhoracio.com.br>",
     to: user.email,
     subject: "Ative seu cadastro!",
     text:

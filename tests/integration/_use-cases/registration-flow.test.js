@@ -45,7 +45,7 @@ describe("Use case: Registration Flow (all successful)", () => {
     const lastEmail = await orchestrator.getLastEmail();
     expect(lastEmail).not.toBe(null);
 
-    expect(lastEmail.sender).toBe("<contato@muhoracio.com.br>");
+    expect(lastEmail.sender).toBe("<contato@news.muhoracio.com.br>");
     expect(lastEmail.recipients[0]).toBe("<registration.flow@email.com>");
     expect(lastEmail.subject).toBe("Ative seu cadastro!");
     expect(lastEmail.text).toContain("RegistrationFlow");
