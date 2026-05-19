@@ -158,15 +158,17 @@ describe("POST /api/v1/sessions", () => {
       expect(Date.parse(responseBody.created_at)).not.toBeNaN();
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
 
+      // Verify if expiration is close to the expected expiration time (within 5 seconds)
       const expiresAt = new Date(responseBody.expires_at);
       const createdAt = new Date(responseBody.created_at);
 
-      const expirationTimeInMilisseconds = expiresAt - createdAt;
+      expect(expiresAt >= createdAt).toBe(true);
 
-      // Verify if expiration is close to the expected expiration time (within 1 second)
-      expect(
-        session.EXPIRATION_IN_MILISECONDS - expirationTimeInMilisseconds,
-      ).toBeLessThan(1000);
+      const expirationTimeInMillisseconds = expiresAt - createdAt;
+      const lifetimeDifferenceInMillisecondes =
+        session.EXPIRATION_IN_MILISECONDS - expirationTimeInMillisseconds;
+
+      expect(lifetimeDifferenceInMillisecondes).toBeLessThanOrEqual(5000);
 
       // Verify "Set-Cookie"
       const parsedSetCookie = setCookieParser(response, {

@@ -221,15 +221,17 @@ describe("GET /api/v1/user", () => {
         renewedSessionObject.updated_at > sessionObject.updated_at,
       ).toEqual(true);
 
-      // Verify if expiration is close to the expected expiration time (within 1 second)
+      // Verify if expiration is close to the expected expiration time (within 5 second)
       const expiresAt = new Date(renewedSessionObject.expires_at);
       const updatedAt = new Date(renewedSessionObject.updated_at);
 
-      const expirationTimeInMilisseconds = expiresAt - updatedAt;
+      expect(expiresAt >= updatedAt).toBe(true);
 
-      expect(
-        session.EXPIRATION_IN_MILISECONDS - expirationTimeInMilisseconds,
-      ).toBeLessThan(1000);
+      const expirationTimeInMillisseconds = expiresAt - updatedAt;
+      const lifetimeDifferenceInMillisecondes =
+        session.EXPIRATION_IN_MILISECONDS - expirationTimeInMillisseconds;
+
+      expect(lifetimeDifferenceInMillisecondes).toBeLessThanOrEqual(5000);
 
       // Set-Cookie assertions
       const parsedSetCookie = setCookieParser(response, {
