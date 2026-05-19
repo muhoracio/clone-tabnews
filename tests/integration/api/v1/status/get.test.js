@@ -32,7 +32,7 @@ describe("GET /api/v1/status", () => {
       const defaultUser = await orchestrator.createUser();
       const activatedUser = await orchestrator.activateUser(defaultUser);
 
-      const sessionObject = await orchestrator.createSession(activatedUser.id);
+      const sessionObject = await orchestrator.createSession(activatedUser);
 
       const response = await fetch(`${webserver.origin}/api/v1/status`, {
         headers: {
@@ -61,7 +61,7 @@ describe("GET /api/v1/status", () => {
       const activatedUser = await orchestrator.activateUser(privilegedUser);
       await orchestrator.addFeaturesToUser(activatedUser, ["read:status:all"]);
 
-      const sessionObject = await orchestrator.createSession(activatedUser.id);
+      const sessionObject = await orchestrator.createSession(activatedUser);
 
       const response = await fetch(`${webserver.origin}/api/v1/status`, {
         headers: {
