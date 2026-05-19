@@ -1,28 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import JSConfetti from "js-confetti";
 
 function Home() {
-  const [confetti, setConfetti] = useState(null);
-  const [animation, setAnimation] = useState(null);
-  const [audio, setAudio] = useState(null);
+  const audioRef = useRef(null);
+  const confettiRef = useRef(null);
+  const animationRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    setAudio(new Audio("./i_love_u_tumate.mp3"));
-    setConfetti(new JSConfetti());
+    audioRef.current = new Audio("./i_love_u_tumate.mp3");
+    confettiRef.current = new JSConfetti();
   }, []);
 
   const play = () => {
     setIsPlaying((val) => !val);
+    const audio = audioRef.current;
+    const confetti = confettiRef.current;
+
     if (audio.paused) {
-      setAnimation(
-        setInterval(() => {
-          confetti.addConfetti();
-        }, 1800),
-      );
+      animationRef.current = setInterval(() => {
+        confetti.addConfetti();
+      }, 1800);
       return audio.play();
     }
-    if (animation) clearInterval(animation);
+    if (animationRef.current) clearInterval(animationRef.current);
     return audio.pause();
   };
 
@@ -35,8 +37,7 @@ function Home() {
       <div></div>
       {isPlaying && (
         <>
-          {/* eslint-disable-next-line jsx-a11y/alt-text, @next/next/no-img-element */}
-          <img src="./ted.gif" />
+          <Image src="/ted.gif" width="360" height="360" alt="Teddy dancing!" />
           <p>Aumente o som!!! 🔊</p>
         </>
       )}
