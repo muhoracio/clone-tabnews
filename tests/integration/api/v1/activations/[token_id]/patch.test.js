@@ -2,6 +2,7 @@ import orchestrator from "tests/orchestrator.js";
 import user from "models/user.js";
 import { v4 as uuid, version as uuidVersion } from "uuid";
 import activation from "models/activation.js";
+import webserver from "infra/webserver.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
@@ -15,7 +16,7 @@ describe("PATCH /api/v1/users/[username]", () => {
     test("With nonexistent token", async () => {
       const randomActivationToken = uuid();
       const activationTokenResponse = await fetch(
-        `http://localhost:3000/api/v1/activations/${randomActivationToken}`,
+        `${webserver.origin}/api/v1/activations/${randomActivationToken}`,
         {
           method: "PATCH",
         },
@@ -43,7 +44,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       jest.useRealTimers();
 
       const activationTokenResponse = await fetch(
-        `http://localhost:3000/api/v1/activations/${activationToken.id}`,
+        `${webserver.origin}/api/v1/activations/${activationToken.id}`,
         {
           method: "PATCH",
         },
@@ -65,7 +66,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       const activationToken = await activation.create(createdUser.id);
 
       const activationTokenResponse1 = await fetch(
-        `http://localhost:3000/api/v1/activations/${activationToken.id}`,
+        `${webserver.origin}/api/v1/activations/${activationToken.id}`,
         {
           method: "PATCH",
         },
@@ -73,7 +74,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       expect(activationTokenResponse1.status).toBe(200);
 
       const activationTokenResponse2 = await fetch(
-        `http://localhost:3000/api/v1/activations/${activationToken.id}`,
+        `${webserver.origin}/api/v1/activations/${activationToken.id}`,
         {
           method: "PATCH",
         },
@@ -96,7 +97,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       const activationToken = await activation.create(createdUser.id);
 
       const activationTokenResponse = await fetch(
-        `http://localhost:3000/api/v1/activations/${activationToken.id}`,
+        `${webserver.origin}/api/v1/activations/${activationToken.id}`,
         {
           method: "PATCH",
         },
@@ -136,7 +137,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       const activationToken = await activation.create(createdUser.id);
 
       const response = await fetch(
-        `http://localhost:3000/api/v1/activations/${activationToken.id}`,
+        `${webserver.origin}/api/v1/activations/${activationToken.id}`,
         {
           method: "PATCH",
         },
@@ -163,7 +164,7 @@ describe("PATCH /api/v1/users/[username]", () => {
       const user2ActivationToken = await activation.create(user2.id);
 
       const response = await fetch(
-        `http://localhost:3000/api/v1/activations/${user2ActivationToken.id}`,
+        `${webserver.origin}/api/v1/activations/${user2ActivationToken.id}`,
         {
           method: "PATCH",
           headers: {
